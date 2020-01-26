@@ -21,6 +21,7 @@ SESSION_SECRET=<your-session-secret>
 npm install
 ```
 4. Install the database by using the schema/seeds file (**config/hotel_worx_2_db.sql**).
+5. Create a "/client" folder where the react frontend app will reside.
 
 ## This project was created and is maintained by:
 * Mike Gullo (https://github.com/mike14747)
