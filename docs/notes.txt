@@ -1,0 +1,92 @@
+What should happen when you delete a reservation?
+
+ - Keep everything intact, but mark the reservation as inactive? When querying for available rooms and such, we'll have to check to make sure the res_rooms as inactive too.
+
+We should be able to access past customers from a list when making new reservations to limit duplicate customers.
+
+When updating a reservation, should the confirmation codes be editable? No.
+
+Do we need the resRoomsController? Should all those routes be included on the api/reservations route?
+
+All rooms associated with a reservation should have the same confirmation number as the first room on that reservation. When rooms are assigned, each room after the first will be assigned its own confirmation number.
+
+We need to get history working so the back button in the browser doesn't always just take you back to the dashboard. On hold for now.
+
+We should have a navbar so you don't always have to go back to the dashboard to go to other pages.
+
+CSTN - the guest didn't choose a room type. So, they can get assigned any type. Add another room type option to room_types and figure out how to implement.
+
+Implement Passport JS auth into React... useContext?
+
+------------------------------------------------------
+
+do we need to flag res_rooms as being paid or is the fact that they've been checked_out enough?
+
+what other charge_types should we have (currently, we have: Phone, Laundry, Parking, Room Service, Restaurant, Wifi, Television, Misc)?
+
+------------------------------------------------------
+
+each invoice_id can have multiple:
+ - charge_types
+ - taxes
+ - payment_types
+
+------------------------------------------------------
+
+Before making an invoice, we need to do the following:
+
+ - know the the res_room_id associated with the invoice
+ - get the number of nights and rate for the res_room
+ - get the charges associated with each res_room by reservation_id and res_room_id
+ - calculate the taxes for each res_room
+ - process the payment(s) and make sure they match the total_due
+
+ ------------------------------------------------------
+
+Each res_room gets an invoice... not each reservation and some total of res_rooms.
+
+Add a cash field to res_rooms so they can't put any charges on the room (it's been added and called allow_charges).
+
+Have a way to have special room rates (for groups/companies... which are lower, certain days of the week... which are higher).
+
+Add a company_id field (nullable) to the customer, reservation or res_romm (not sure which) table (it's been added to the reservations table).
+
+ ------------------------------------------------------
+
+When an invoice is being created, these things need to happen:
+
+These are now done via a single model method using a transaction
+ - Room.updateRoomCheckedOutById
+ - ResRoom.updateResRoomCheckoutById
+
+These are now done via a single model method using a transaction
+ - Invoice.addNewInvoice
+ - InvoiceTax.addNewInvoiceTaxes (needs the newly created invoice_id)
+ - InvoicePayment.addNewInvoicePayments (needs the newly created invoice_id)
+
+Now that both of the above have been combined into the 'addNewInvoice' invoice model method, can I delete the 'updateResRoomCheckinById' and 'updateResRoomCheckoutById' res_room model methods?
+ ------------------------------------------------------
+
+Maybe try to switch over models/auth.js and controllers/authController to async/await... but maybe not
+
+Finish the '/api/auth' section in api docs.
+
+Set the proper redirects (if any) in authController
+
+------------------------------------------------------
+
+The following are stored as decimal values and will always be received as strings. They will need to be converted to numbers after they are received from the database.
+ - room_types.rate
+ - res_rooms.rate
+ - taxes.tax_rate
+ - charges.chare_amount
+ - invoices.total_due
+ - invoice_taxes.tax_amount
+ - invoice_payments.payment_amount
+
+------------------------------------------------------
+
+
+
+------------------------------------------------------
+
