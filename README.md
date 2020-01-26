@@ -22,6 +22,7 @@ npm install
 ```
 4. Install the database by using the schema/seeds file (**config/hotel_worx_2_db.sql**).
 5. Create a "/client" folder where the react frontend app will reside.
+6. Review the api docs (/docs/REST-API-DOCS.md) when fetching data on the frontend.
 
 ## This project was created and is maintained by:
 * Mike Gullo (https://github.com/mike14747)
